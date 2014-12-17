@@ -1,0 +1,47 @@
+---
+title: "Inference Assignment 1b"
+author: "Moritz Schneider"
+date: "Wednesday, December 17, 2014"
+output: pdf_document
+---
+
+```{r, echo=FALSE}
+library(ggplot2)
+```
+
+#Assignment
+
+Now in the second portion of the class, we're going to analyze the ToothGrowth data in the R datasets package.
+
+    1. Load the ToothGrowth data and perform some basic exploratory data analyses 
+    
+    2. Provide a basic summary of the data.
+    
+    3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering).
+    
+    4. State your conclusions and the assumptions needed for your conclusions. 
+
+#Part 1
+
+For exploratory data analysis, let's take look at some box plots:
+
+```{r, echo = FALSE, fig.height=3}
+data <- ToothGrowth
+ggplot(ToothGrowth, aes(supp, len, fill = supp)) +
+        geom_boxplot() +
+        geom_point(size = 2) +
+        xlab ("Supplement") +
+        ylab("Tooth length") +
+        scale_fill_brewer()
+ggplot(ToothGrowth, aes(as.factor(dose), len, fill = as.factor(dose))) +
+        geom_boxplot() +
+        geom_point(size = 2) +
+        xlab ("Dose") +
+        ylab("Tooth length") +
+        scale_fill_brewer()
+```
+
+In the first plot we can see, that the supplement type, OJ and VC, has an effect on tooth length as OJ supplement seems to lead to inceased tooth length. A pattern arising from different dose levels is very obvious in the second boxplot, where the boxes resolve tooth length by dose levels. Higher doses obviously lead to increased tooth length.
+
+#Part 2
+

@@ -10,15 +10,9 @@ library(ggplot2)
 ```
 
 
-mean is 1/lambda
-sd is 1/lambda
-var is 1/lambda^2
-sd_ is 1/(lambda * sqrt(n))
-var_ is 1/(n * lambda)
-
 #Assignment:
 
-The exponential distribution can be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also also 1/lambda. Set lambda = 0.2 for all of the simulations. In this simulation, you will investigate the distribution of averages of 40 exponential(0.2)s. Note that you will need to do a thousand or so simulated averages of 40 exponentials.
+The exponential distribution can be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also also 1/lambda. Set lambda = 0.2 for all of the simulations. In this simulation, you will investigate the distribution of averages of 40 exponential(0.2)s. Note that you will need to do a thousand or so simulated averages of 40 exponential.
 
 Illustrate via simulation and associated explanatory text the properties of the distribution of the mean of 40 exponential(0.2)s.  You should
 
@@ -32,8 +26,7 @@ Illustrate via simulation and associated explanatory text the properties of the 
 
 I will use set.seed(1) as seed for this and all following parts.
 
-According to the central limit theorem the distribution of sample means should be cenetered at the distribution mean, i.e. 5.
-
+According to the central limit theorem the distribution of sample means should be centered at the population mean, i.e. 5. To confirm this, we calculate the mean of 40 exponentials with lambda = 0.2, repeat this 1000 times and plot the resulting distribution.
 ```{r}
 set.seed(1)
 lambda <- 0.2
@@ -44,14 +37,38 @@ for (i in 1:reps){
         means = c(means, mean(rexp(nm, lambda)))
 }
 sim.mean <- mean(means)
-qplot(means, geom="histogram")
-
+hist(means,
+     main = paste("Histogram of means, center = ",sim.mean, sep=""))
+abline( v = sim.mean, col = "magenta", lwd =4)
 ```
 
+The magenta colored line gives us the mean of the distribution, which is 4.99 and therefore a very good estimate of the population mean.
 
+#Part 2 
+
+Let's calculate the variance of the distribution we just sampled:
+
+```{r}
+var(means)
+```
+
+The theoretical value for the variance should be:
+
+```{r}
+1/(lambda^2*nm)
+```
+
+Again, the sampled variance is very close to the theoretical value.
+
+#Part 3
+
+To show that the sampled distribution is approx. normal we transform our distribution to a distribution with mean = 0 and sd = 1 and then take a look at the Normal Q-Q Plot of our sampled distribution
 
 ```{r, echo=FALSE}
-plot(cars)
+qqnorm((means-sim.mean)/sqrt(var(means)))
+qqline((means-sim.mean)/sqrt(var(means)))
 ```
+
+Here we can see, that our distribution is very close to normal, which is expected as the distribution of averages tends to approximate a normal distribution as the sample size used to calculate the mean gets larger.
 
 
